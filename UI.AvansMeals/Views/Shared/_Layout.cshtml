@@ -1,0 +1,108 @@
+﻿@{
+    var currentUser = User?.Identity;
+    var isLoggedIn = currentUser?.IsLoggedIn() ?? false;
+    var isEmployee = currentUser?.IsEmployee() ?? false;
+    var isStudent = currentUser?.IsStudent() ?? false;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AvansMeals | @ViewData["Title"]</title>
+    <link rel="icon" href="~/img/favicon-dark.ico" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <!-- Import font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Import bootstrap stepper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css" />
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Import sweetalert-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Alert functions -->
+    <script src="~/js/alert.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid fw-bold text-white w-100">
+              <a asp-action="Index" asp-controller="Home" class="navbar-brand ms-3 me-5">
+                <img class="img-fluid" src="~/img/avansmeals-logo-nav.png" />
+              </a>
+
+              <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+
+
+              <div class="collapse navbar-collapse text-right row" id="navbarNav">
+                <ul class="navbar-nav d-flex p-4 p-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Package" asp-action="Index">Paketten</a>
+                    </li>
+
+                    @if (isLoggedIn && isEmployee)
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Category" asp-action="Index">Producten</a>
+                        </li>
+                    }
+
+                    <li class="nav-item dropdown ms-lg-auto">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user me-2"></i>@(isLoggedIn ? currentUser!.Name : "Niet ingelogd")
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            @if (isLoggedIn) {
+                                if(isStudent){
+                                    <li><a class="dropdown-item" asp-controller="Student" asp-action="Profile">Mijn account</a></li>
+                                }else if (isEmployee){
+                                    <li><a class="dropdown-item" asp-controller="Employee" asp-action="Profile">Mijn account</a></li>
+                                }
+
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout">Uitloggen</a></li>
+                            }else{
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Login">Inloggen</a></li>
+                            }
+                        </ul>
+                    </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container-fluid p-0 website">
+        <main role="main">
+            @RenderBody()
+        </main>
+
+        <!-- Error and success popups (Request bound) -->
+        @if (TempData["ERROR"] != null){
+            <script type="text/javascript">AlertError('@TempData["MESSAGE"]');</script>
+        }
+        
+        @if (TempData["SUCCESS"] != null){
+            <script type="text/javascript">AlertSuccess('@TempData["MESSAGE"]');</script>
+        }
+       
+    </div>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

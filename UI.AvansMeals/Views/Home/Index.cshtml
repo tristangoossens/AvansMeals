@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container mt-5">
+    <div class="row home-header rounded">
+        <div class="col-lg-5 col-md-10 col-12 home-header-content p-3">
+            <div class="mt-4 my-auto">
+                <div class="bg-dark p-3">
+                    <h1 class="fw-bold home-title">Zin in een <span class="color-span-light">AvansMeal</span>?</h1>
+
+                    <p>Bestel een <span class="color-span-light fw-bold">AvansMeal</span> en help mee om voedselverspilling 
+                       tegen te gaan
+                    </p>
+
+                    <a class="btn btn-avansmeals-info" asp-action="Index" asp-controller="Package">Vind een AvansMeal!</a>
+                </div>
+            </div>          
+        </div>
+    </div>
+</div>
+
+
+<div class="container my-5">
+    <div class="row rounded border shadow-sm bg-light p-5">
+        <div class="col-12 col-lg-7 text-center text-lg-start">
+            <h1 class="fw-bold title">Hoe werkt <span class="color-span">AvansMeals</span>?</h1>
+            <div class="d-flex mt-5">
+                <div class="bs-stepper vertical">
+                    <div class="bs-stepper-header">
+                        <div class="step">
+                            <span class="bs-stepper-circle">1</span>
+                            <span class="bs-stepper-label">Vind een geschikte Avans Maaltijddoos</span>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step">
+                            <span class="bs-stepper-circle">2</span>
+                            <span class="bs-stepper-label">Reserveer een pakket naar jouw keuze</span>
+                        </div>
+                        <div class="line"></div>
+                        <div class="step">
+                            <span class="bs-stepper-circle">3</span>
+                            <span class="bs-stepper-label">Haal je pakket op school op!</span>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-5 pt-5 pt-lg-0">
+            <img class="img-fluid rounded" src="~/img/basket.png" />
+        </div>
+    </div>
+</div>

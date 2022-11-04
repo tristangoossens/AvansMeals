@@ -1,0 +1,159 @@
+﻿@model SingleEmployeeViewModel
+
+@{
+    ViewData["Title"] = "Profiel";
+}
+
+<div class="container p-5">
+    <div class="row">
+        <div class="col-12 col-lg-8 border rounded p-3 me-lg-3">
+            <h3 class="fw-bold">Paketten in "<span class="color-span">@Model.EmployeeCanteen.City.GetDisplayName()</span>"</h3>
+            <p>Bekijk hier paketten in jouw stad. Deze maaltijddozen worden gefilterd per kantine.</p>
+
+            <form asp-action="Profile" asp-controller="Employee" class="d-flex">
+                <div class="input-group">
+                    <div class="ms-auto rounded-start">
+                        <select class="form-select" asp-for="SelectedCanteenId" asp-items="Model.CanteensInCity">
+                        </select>
+                    </div>
+
+                    <select asp-for="SortType" class="form-select">
+                        <option value="@FilterMenuSortType.DATE_ASC">@FilterMenuSortType.DATE_ASC.GetDisplayName()</option>
+                        <option value="@FilterMenuSortType.DATE_DESC">@FilterMenuSortType.DATE_DESC.GetDisplayName()</option>
+                        <option value="@FilterMenuSortType.PRICE_ASC">@FilterMenuSortType.PRICE_ASC.GetDisplayName()</option>
+                        <option value="@FilterMenuSortType.PRICE_DESC">@FilterMenuSortType.PRICE_DESC.GetDisplayName()</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-avansmeals-info">Toepassen filter</button>
+                </div>
+            </form>
+
+            <hr />
+
+            <div class="table-responsive">
+                <table class="table table-striped" style="white-space: nowrap">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mealbox</th>
+                            <th scope="col">Prijs</th>
+                            <th scope="col">Datum ophalen</th>
+                            <th scope="col">Gereserveerd door</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model!.FilteredMealboxesList!.Count > 0)
+                        {
+                            @foreach (var mealbox in Model.FilteredMealboxesList)
+                            {
+                                <tr>
+                                    <td>
+                                        @mealbox.Name
+                                        <a asp-action="Details" asp-controller="Package" asp-route-id="@mealbox.Id" class="d-inline-block">
+                                            <i class="fa-solid fa-arrow-up-right-from-square d-inline"></i>
+                                        </a>
+                                    </td>
+                                    <td>€ @mealbox.Price</td>
+                                    <td>@mealbox.PickupDate</td>
+                                    <td>
+                                        @if (mealbox.Reserved)
+                                        {
+                                            <p>@mealbox!.ReservedBy!.Name</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="fa-solid fa-xmark"></p>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3 border rounded px-3 mt-4 mt-lg-0 pt-3 ms-lg-3">
+            <h3 class="fw-bold"><span class="color-span">Mijn gegevens</span></h3>
+
+            <div class="account-details mt-3">
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">Naam</p>
+                    <p class="mb-1">@Model.Name</p>
+                </div>
+
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">E-mail</p>
+                    <p class="mb-1">@Model.Email</p>
+                </div>
+
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">Medewerkernummer</p>
+                    <p class="mb-1">@Model.EmployeeNr</p>
+                </div>
+
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">Kantine</p>
+                    <p class="mb-1">@Model.EmployeeCanteen.Name</p>
+                </div>
+
+                <div class="my-3">
+                    <p class="fw-bold mb-0">Kantine plaats</p>
+                    <p class="mb-1">@Model.EmployeeCanteen.City.GetDisplayName()</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-lg-8 border rounded p-3 my-5">
+            <h3 class="fw-bold">Bestellingen in kantine "<span class="color-span">@Model.EmployeeCanteen.Name</span>"</h3>
+            <p>Bekijk reserveringen voor pakketten die binnenkort opgehaald moeten worden.</p>
+
+            <div class="table-responsive">
+                <table class="table table-striped" style="white-space: nowrap">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mealbox</th>
+                            <th scope="col">Geplaatst op</th>
+                            <th scope="col">Datum ophalen</th>
+                            <th scope="col">Tijd ophalen</th>
+                            <th scope="col">Opgehaald?</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model!.EmployeeCanteen?.Reservations != null)
+                        {
+                            @foreach (var reservation in Model.EmployeeCanteen.Reservations)
+                            {
+                                <tr>
+                                    <td>
+                                        @reservation.MealboxName
+                                        <a asp-action="Details" asp-controller="Package" asp-route-id="@reservation.MealboxId">
+                                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                        </a>
+                                    </td>
+                                    <td>@reservation.PlacedOn</td>
+                                    <td>@reservation.PickupDate</td>
+                                    <td>@reservation.PickupTimes</td>
+                                    <td>
+                                        @if (reservation.IsPickedUp)
+                                        {
+                                            <i class="fa-solid fa-check"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fa-solid fa-xmark"></i>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

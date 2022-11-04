@@ -1,0 +1,55 @@
+﻿@model List<SingleCategoryViewModel>
+
+@{
+    ViewData["Title"] = "Productcategorieën";
+}
+
+<div class="container p-5">
+    <div class="row">
+        <div class="d-flex flex-column flex-lg-row">
+            <h1 class="fw-bold color-span">Productcategorieen</h1>
+
+            <a class="btn btn-avansmeals-create d-inline my-auto ms-lg-auto" asp-action="Add" asp-controller="Category">
+                <i class="fa-solid fa-plus me-2"></i>Categorie toevoegen
+            </a>
+        </div>
+
+        <p class="pt-4 pt-lg-0">Deze categorieen representeren een type maaltijd. Bekijk iedere categorie individueel om de producten te zien</p>
+    </div>
+    
+
+    <div class="row table-responsive">
+        <table class="table table-striped" style="white-space: nowrap">
+            <thead>
+                <tr>
+                    <th scope="col">Naam</th>
+                    <th scope="col">Aantal producten</th>
+                    <th scope="col">Verwijderen</th>
+                    <th scope="col">Bekijken</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (SingleCategoryViewModel category in Model)
+                {
+                    <tr>
+                        <td>@category.Name</td>
+                        <td>@category.ProductCount</td>
+                        <td>
+                            <button type="button" onclick="AlertConfirmation('delete-category-url')" class="btn btn-avansmeals-delete ms-2">
+                                <a asp-action="Delete" asp-controller="Category" asp-route-id="@category.Id" id="delete-category-url">
+                                    <i class="fa-solid fa-trash"></i>
+                                </a>
+                            </button>
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-controller="Category" asp-route-id="@category.Id" class="btn btn-avansmeals-info ms-2">
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

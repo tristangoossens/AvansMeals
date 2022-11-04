@@ -1,0 +1,110 @@
+﻿@model Student
+
+@{
+    ViewData["Title"] = "Profiel";
+
+    // Save today's date.
+    var today = DateTime.Today;
+
+    // Calculate the age.
+    var age = today.Year - Model.Birthdate.Year;
+
+    // Go back to the year in which the person was born in case of a leap year
+    if (Model.Birthdate.Date > today.AddYears(-age)) age--;
+}
+
+<div class="container p-5">
+    <h1 class="fw-bold">Welkom, <span class="color-span">@Model.Name</span></h1>
+    <p class="mt-0">Op deze pagina kun je je eigen bestellingen en gegevens terug vinden.</p>
+    
+
+    <div class="row">
+        <div class="col-12 col-lg-8 border rounded p-3 me-lg-3">
+            <h3 class="fw-bold"><span class="color-span">Mijn bestellingen</span></h3>
+
+            <div class="table-responsive">
+                <table class="table table-striped" style="white-space: nowrap">
+                    <thead>
+                        <tr>
+                            <th scope="col">Mealbox</th>
+                            <th scope="col">Geplaatst op</th>
+                            <th scope="col">Datum ophalen</th>
+                            <th scope="col">Tijd ophalen</th>
+                            <th scope="col">Opgehaald?</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var reservation in Model.Reservations)
+                        {
+                            <tr>
+                                <td>
+                                    @reservation.Mealbox.Name
+                                    <a asp-action="Details" asp-controller="Package" asp-route-id="@reservation.Mealbox.Id">
+                                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                    </a>
+                                </td>
+                                <td>@reservation.CreatedAt.ToString("dd-MM-yyyy")</td>
+                                <td>@reservation.Mealbox.PickupFrom.ToString("dd-MM-yyyy")</td>
+                                <td>@reservation.Mealbox.PickupFrom.ToString("hh:mm") - @reservation.Mealbox.PickupUntil.ToString("hh:mm")</td>
+                                <td>
+                                    @if (reservation.IsPickedUp)
+                                    {
+                                        <i class="fa-solid fa-check"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="fa-solid fa-xmark"></i>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3 border rounded px-3 mt-4 mt-lg-0 pt-3 ms-lg-3">
+            <h3 class="fw-bold"><span class="color-span">Mijn gegevens</span></h3>
+
+            <div class="account-details mt-3">
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">Name</p>
+                    <p class="mb-1">@Model.Name</p>
+                </div>
+               
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">E-mail</p>
+                    <p class="mb-1">@Model.Email</p>
+                </div>
+  
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">Studentnummer</p>
+                    <p class="mb-1">@Model.StudentNr</p>
+                </div>
+
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">Telefoonnummer</p>
+                    <p class="mb-1">@Model.Phonenumber</p>
+                </div>
+
+                <div class="detail-group border-bottom my-3">
+                    <p class="fw-bold mb-0">Geboortedatum</p>
+
+                    <div class="d-block mb-1">
+                        <p class="d-inline">@Model.Birthdate.ToString("dd-MM-yyyy")</p>
+
+                        @if(age >= 18) {
+                            <span class="badge bg-success tag-18">18+</span>
+                        } 
+                    </div> 
+                </div>
+
+                <div class="my-3">
+                    <p class="fw-bold mb-0">Stad van studie</p>
+                    <p class="mb-1">@Model.City.GetDisplayName()</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

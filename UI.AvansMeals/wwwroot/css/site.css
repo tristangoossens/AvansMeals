@@ -1,0 +1,222 @@
+/*Font import*/
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@500&display=swap');
+
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'); */
+
+:root {
+    --color-1: #7BAE37;
+    --color-2: #4D6E23;
+    --color-3: #B0FA50;
+    --color-4: #83BA3C;
+    --color-5: #68942F;
+
+    --color-6: #7BAE37;
+    --color-7: #406115;
+    --color-8: #4962AD;
+    --color-9: #AD4126;
+    --color-10: #61281A;
+}
+
+/*General styling across pages*/
+.color-span {
+    color: var(--color-7) !important;
+}
+.color-span-light {
+    color: var(--color-6) !important;
+}
+
+.count-span {
+    font-size: 0.7rem;
+    font-weight: normal
+}
+
+.tag-18 {
+    background-color: var(--color-10) !important;
+}
+
+.btn-avansmeals-info {
+    color: #ffffff !important;
+    background-color: var(--color-8);
+}
+
+.btn-avansmeals-info:hover {
+    background-color: var(--color-7) !important;
+}
+
+.btn-avansmeals-create {
+    color: #ffffff !important;
+    background-color: var(--color-7);
+}
+
+.btn-avansmeals-create:hover {
+    background-color: var(--color-6) !important;
+}
+
+.btn-avansmeals-delete {
+    color: #ffffff !important;
+    background-color: var(--color-9);
+}
+
+.btn-avansmeals-delete:hover {
+    background-color: var(--color-10) !important;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif !important;
+    /*font-family: 'Roboto Mono', monospace !important;*/
+}
+
+nav {
+    background-color: var(--color-7);
+}
+
+a {
+    text-decoration: none;
+    color: inherit !important;
+}
+
+/* Home styling */
+.home-header {
+    height: 60vh;
+    background-image: url("../img/header-image.jpg");
+    filter: brightness(95%);
+    z-index: 1;
+}
+
+.home-header {
+    min-height: 60vh;
+    background-image: url("../img/header-image.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    position: relative;
+    z-index: 1;
+}
+
+.home-header:after {
+    background-color: rgba(0, 0, 0, 0.56);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    z-index: 2;
+}
+
+.home-header-content {
+    z-index: 50;
+    color: white
+}
+
+.home-title {
+    font-size: 3.2rem;
+    color: white
+}
+
+
+/*Bootstrap overwritten classes*/
+.form-control:focus {
+    border: 1px solid #CED4DA !important;
+    box-shadow: none !important;
+}
+
+/*Package overview style*/
+.clear-btn {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.foodbox-card .card-footer {
+    font-size: 1.15rem;
+    border: 3px solid transparent;
+}
+
+.foodbox-card:hover .card-footer {
+    border-bottom: 3px solid var(--color-7);
+}
+
+
+/*Package detail page*/
+.foodbox-header .title {
+    display: block;
+    font-weight: bold;
+    font-size: 3.3rem;
+    margin: 0;
+}
+
+.foodbox-header .filters {
+    font-size: 1.20rem;
+}
+
+.foodbox-header .attribute {
+    font-size: 1.15rem;
+}
+
+.foodbox-header .attribute p {
+    display: inline;
+}
+
+.foodbox-header .attribute span {
+    font-weight: bold;
+}
+
+.foodbox-header .price {
+    display: block;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+#delete-box-url {
+    pointer-events: none
+}
+
+#confirm-reservation-url {
+    pointer-events: none
+}
+/*Account login page*/
+.login-header {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    background-color: var(--color-8);
+    background-size: cover;
+}
+
+.login-header::before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0,0,0,0.60);
+}
+
+.login-header .content {
+    position: relative;
+}
+
+.login-header .btn-primary {
+    border-radius: 0 !important;
+}
+
+/* Category overview page */
+#delete-category-url {
+    pointer-events: none;
+}
+
+/* Category detail page */
+.delete-product-url {
+    pointer-events: none;
+}
+
+/* Product add page */
+#existing-product-form {
+    display: none
+}

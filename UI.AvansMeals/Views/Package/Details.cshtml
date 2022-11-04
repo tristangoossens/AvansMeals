@@ -1,0 +1,77 @@
+﻿@using System.Security.Claims
+@model SingleMealboxViewModel
+
+@{
+    ViewData["Title"] = "Package details";
+
+    var isLoggedIn = User?.Identity?.IsAuthenticated ?? false;
+    var currentUser = User?.Identity;
+
+    var isStudent = ((ClaimsIdentity?)User?.Identity)!.Claims.Any(c => c.Type == "Student");
+    var isEmployee = ((ClaimsIdentity?)User?.Identity)!.Claims.Any(c => c.Type == "KantineMedewerker");
+}
+<header class="foodbox-header container py-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+            <div class="d-flex align-items-center">
+                <img class="img-fluid m-auto" src="@Model.Category.ImageBase64" />
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6 p-4 rounded border">
+            <h1 class="title">@Model.Name</h1>
+
+            <div class="filters">
+                <span class="badge bg-secondary">@Model.Category.Name</span>
+            </div>
+
+            <p class="mt-2 mb-3 price">€ @Model.Price</p>
+
+
+            <div class="attribute">
+                <i class="fa-solid fa-compass pe-1"></i>
+                <p class="d-inline">Locatie: <span class="ps-1">@Model.Canteen.City.GetDisplayName()</span></p>
+            </div>
+
+            <div class="attribute">
+                <i class="fa-solid fa-utensils pe-1"></i>
+                <p class="d-inline ">Kantine: <span class="ps-1">@Model.Canteen.Name</span></p>
+            </div>
+
+            <div class="attribute">
+                <i class="fa-solid fa-calendar-check"></i>
+                <p class="d-inline ">Datum ophalen: <span class="ps-1">@Model.PickupFrom</span></p>
+            </div>
+
+            <div class="d-flex mt-4">
+                <button type="button" onclick="AlertReservationConfirmation('confirm-reservation-url')" class="btn btn-avansmeals-info">
+                    <a asp-action="Reserve" asp-controller="Package" asp-route-id="@Model.Id" class="" id="confirm-reservation-url">Reserveer nu!</a>
+                </button>
+
+                
+
+                @if(isLoggedIn && isEmployee){
+                    <a asp-action="Edit" asp-controller="Package" asp-route-id="@Model.Id" class="btn btn-warning ms-2"><i class="fa-solid fa-pencil"></i></a>
+
+                    <button type="button" onclick="AlertConfirmation('delete-box-url')" class="btn btn-avansmeals-delete ms-2">
+                        <a asp-action="Delete" asp-controller="Package" asp-route-id="@Model.Id" id="delete-box-url">
+                            <i class="fa-solid fa-trash"></i>
+                        </a>
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="container my-5">
+    <div class="row p-5 bg-light rounded shadow-sm text-center text-lg-start border">
+        <h1 class="fw-bold">Producten in deze <span class="color-span">maaltijddoos</span></h1>
+        <small class="mb-2"><span class="fw-bold">LET OP!</span> Producten in deze kist zijn gebaseerd op wat er over blijft in de kantine. De producten die hieronder vermeld zijn gebaseerd op vorige kisten</small>
+        @foreach (var item in Model.Category.Products)
+        {
+            <partial model="item" name="_ProductCardPartial" />
+        }
+    </div>
+</div>

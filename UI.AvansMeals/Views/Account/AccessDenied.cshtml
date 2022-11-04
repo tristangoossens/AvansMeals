@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Geen toegang";
+}
+
+<header class="login-header row justify-content-center d-flex m-0">
+    <div class="content rounded col-9 col-lg-3 m-auto p-4 text-center">
+        <img class="img-fluid mb-4" src="~/img/avansmeals-logo.png" width="250" height="100" />
+
+        <div class="row justify-content-center rounded bg-light text-center content-box-shadow">
+            <div class="p-3">
+                <h2 class="fw-bold">Verboden <span class="color-span">toegang!</span></h2>
+                <p>Jouw account is niet bevoegd om deze actie uit te voeren :(</p>
+            </div>
+            
+            <a class="btn btn-avansmeals-info" asp-controller="Home" asp-action="Index">Terug naar homepage</a>
+        </div>
+    </div>
+</header>

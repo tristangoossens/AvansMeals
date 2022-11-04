@@ -1,0 +1,72 @@
+﻿@model EditMealboxViewModel
+
+@{
+    ViewData["Title"] = "Maaltijddoos wijzigen";
+
+    AddMealboxDataViewModel existingData = ViewBag.DataModel;
+}
+
+<div class="container p-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="fw-bold"><span class="color-span">Maaltijddoos</span> wijzigen</h1>
+            <p>
+                Op deze pagina kunnen een aantal details worden veranderd van een maaltijddoos. Data voor ophalen kan hier
+                bij niet worden veranderd en de kantine word automatisch aan uw werkplek gekoppeld
+            </p>
+
+            <div class="alert alert-secondary" role="alert">
+                Velden met een * zijn verplicht
+            </div>
+
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="alert alert-danger" asp-validation-summary="All"></div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <form asp-controller="Package" asp-action="Edit" class="my-3" method="post">
+            <input type="hidden" asp-for="Id" value="@Model.Id">
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Kantine *</label>
+                <select asp-for="CanteenId" class="form-select">
+                    <option value="@existingData.Canteen.Id" selected>@existingData.Canteen.Name</option>
+                </select>
+                <div class="form-text">De kantine word automatisch bepaald op basis van uw werkplaats</div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Naam van het pakket *</label>
+                <input asp-for="Name" type="text" class="form-control" value="@Model.Name">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Prijs *</label>
+                <input asp-for="Price_String" class="form-control" type="number" min="0.00" step="0.01" value="@Model.Price_String" />
+            </div>
+
+            <div class="mb-3 d-block">
+                <label class="form-label fw-bold d-block">Datum ophalen van *</label>
+                <input asp-for="PickupFrom" type="datetime-local" class="form-control" value="@Model.PickupFrom.ToString("s")" readonly>
+                <div class="form-text">Datum voor ophalen pakket kan niet worden veranderd</div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Datum ophalen tot *</label>
+                <input asp-for="PickupUntil" type="datetime-local" class="form-control" value="@Model.PickupUntil.ToString("s")" readonly>
+                <div class="form-text">Datum voor ophalen pakket kan niet worden veranderd</div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Type maaltijddoos *</label>
+                <select asp-for="CategoryId" class="form-select" asp-items="existingData.Categories">
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-avansmeals-create">Toevoegen</button>
+        </form>
+    </div>
+</div>

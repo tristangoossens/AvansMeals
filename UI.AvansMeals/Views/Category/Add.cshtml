@@ -1,0 +1,43 @@
+﻿@model AddCategoryViewModel
+
+@{
+    ViewData["Title"] = "ProductCategorie toevoegen";
+}
+
+<div class="container p-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="fw-bold"><span class="color-span">Categorie</span> toevoegen</h1>
+            <p>
+                Op deze pagina kan er een categorie voor producten toegevoegd worden. Deze kan later gevuld worden met producten.
+            </p>
+
+            <div class="alert alert-secondary" role="alert">
+                Velden met een * zijn verplicht
+            </div>
+
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="alert alert-danger" asp-validation-summary="All"></div>
+            }
+        </div>
+    </div>
+
+    <div class="row">
+        <form asp-controller="Category" asp-action="Add" class="my-3" method="post" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Naam van de categorie (b.v. Brood, Groenten) *</label>
+                <input asp-for="Name" type="text" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Image" class="form-label fw-bold">Foto *</label>
+                <input asp-for="Image" class="form-control" type="file">
+                <div class="form-text">Een foto dient niet groter te zijn dan 500x500px</div>
+            </div>
+
+            <button type="submit" class="btn btn-avansmeals-create">Toevoegen</button>
+        </form>
+    </div>
+</div>
